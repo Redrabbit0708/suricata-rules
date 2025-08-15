@@ -1,0 +1,36 @@
+name: Package Suricata Rules
+
+on:
+  push:
+    branches: [ main ]       
+  workflow_dispatch:        
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Package rules into tar.gz
+        run: |
+          mkdir -p output
+          tar -czvf output/suricata-rules.tar.gz suricata/*.rules
+
+      - name: Upload artifact (for CI download)
+        uses: actions/upload-artifact@v4
+        with:
+          name: suricata-rules
+          path: output/suricata-rules.tar.gz
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: rules-${{ github.run_number }}
+          name: Suricata Rules build #${{ github.run_number }}
+          files: output/suricata-rules.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
