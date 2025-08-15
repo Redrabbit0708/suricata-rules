@@ -1,7 +1,7 @@
-alert udp any any -> $HOME_NET any (msg:"[DoS] UDP Large-Payload Rate"; flow:to_server,stateless; dsize:>300; threshold:type both, track by_src, count 60, seconds 10; sid:9001004; rev:1;)**
+alert udp any any -> any any (msg:"[DoS] UDP Large-Payload Rate"; flow:to_server,stateless; dsize:>300; threshold:type both, track by_src, count 60, seconds 10; sid:9001004; rev:1;)**
 
-alert icmp any any -> $HOME_NET any (msg:"[DoS] ICMP Echo Rate"; itype:8; threshold:type both, track by_src, count 40, seconds 10; sid:9001002; rev:1;)**
+alert icmp any any -> any any (msg:"[DoS] ICMP Echo Rate"; itype:8; threshold:type both, track by_src, count 40, seconds 10; sid:9001002; rev:1;)**
 
-alert http any any -> $HOME_NET any (msg:"[DOS] High HTTP GET Rate"; flow:to_server,established; http_method; content:"GET"; threshold:type both, track by_src, count 40, seconds 10; sid:9001003; rev:1;)**
+alert http any any -> any any (msg:"[DOS] High HTTP GET Rate"; flow:to_server,established; http_method; content:"GET"; threshold:type both, track by_src, count 40, seconds 10; sid:9001003; rev:1;)**
 
-alert tcp any any -> $HOME_NET any (msg:"[DoS] TCP SYN Rate"; flow:stateless; flags:S; threshold:type both, track by_src, count 60, seconds 10; sid:9001001; rev:1;)**
+alert tcp any any -> any any (msg:"[DoS] TCP SYN Rate"; flow:stateless; flags:S; threshold:type both, track by_src, count 60, seconds 10; sid:9001001; rev:1;)**
