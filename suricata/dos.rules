@@ -2,5 +2,5 @@ alert udp any any -> any any (msg:"POTENTIAL DoS - UDP Large-Payload Rate"; dsiz
 alert icmp any any -> any any (msg:"POTENTIAL DoS -ICMP Echo Rate"; flow:stateless; itype:8; threshold:type both, track by_src, count 40, seconds 10; sid:9001002; rev:1;)
 alert http any any -> any any (msg:"POTENTIAL DoS - High HTTP GET Rate"; flow:to_server,established; http_method; content:"GET"; threshold:type both, track by_src, count 40, seconds 10; sid:9001003; rev:1;)
 alert tcp any any -> any any (msg:"POTENTIAL DoS -TCP SYN Rate"; flow:stateless; flags: S; threshold:type both, track by_src, count 60, seconds 10; sid:9001001; rev:1;)
-alert udp any any -> any 53 (msg:"[DoS] DNS Query Rate"; content:"|01 00|"; offset:2; depth:2; threshold:type both, track by_src, count 60, seconds 5; sid:9001005; rev:1;)
+alert udp any any -> any 53 (msg:"POTENTIAL DoS - DNS Query Rate"; content:"|01 00|"; offset:2; depth:2; threshold:type both, track by_src, count 60, seconds 5; sid:9001005; rev:1;)
 alert http any any -> any any (msg:"POTENTIAL DoS - High HTTP POST Rate"; flow:to_server,established; http_method; content:"POST"; threshold:type both, track by_src, count 20, seconds 10; sid:9001006; rev:1;)
