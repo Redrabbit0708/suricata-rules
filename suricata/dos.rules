@@ -4,3 +4,23 @@ alert http any any -> any any (msg:"POTENTIAL DoS - High HTTP GET Rate"; flow:to
 alert tcp any any -> any any (msg:"POTENTIAL DoS -TCP SYN Rate"; flow:stateless; flags: S; threshold:type both, track by_src, count 60, seconds 10; sid:9001004; rev:1;)
 alert udp any any -> any 53 (msg:"POTENTIAL DoS - DNS Query Rate"; content:"|01 00|"; offset:2; depth:2; threshold:type both, track by_src, count 60, seconds 5; sid:9001005; rev:1;)
 alert http any any -> any any (msg:"POTENTIAL DoS - High HTTP POST Rate"; flow:to_server,established; http.method; content:"POST"; threshold:type both, track by_src, count 20, seconds 10; sid:9001006; rev:1;)
+# Read Input Registers (Function Code 4)
+alert tcp any any -> any 502 (msg:"Modbus Read Input Registers (FC4)"; flow:to_server,established; content:"|04|"; offset:7; depth:1; sid:100101; rev:2;)
+
+# Read Holding Registers (Function Code 3)
+alert tcp any any -> any 502 (msg:"Modbus Read Holding Registers (FC3)"; flow:to_server,established; content:"|03|"; offset:7; depth:1; sid:100102; rev:2;)
+
+# Read Coils (Function Code 1)
+alert tcp any any -> any 502 (msg:"Modbus Read Coils (FC1)"; flow:to_server,established; content:"|01|"; offset:7; depth:1; sid:100103; rev:2;)
+
+# Read Discrete Inputs (Function Code 2)
+alert tcp any any -> any 502 (msg:"Modbus Read Discrete Inputs (FC2)"; flow:to_server,established; content:"|02|"; offset:7; depth:1; sid:100104; rev:2;)
+
+# Write Single Register (Function Code 6)
+alert tcp any any -> any 502 (msg:"Modbus Write Single Register (FC6)"; flow:to_server,established; content:"|06|"; offset:7; depth:1; sid:100201; rev:2;)
+
+# Write Multiple Registers (Function Code 16)
+alert tcp any any -> any 502 (msg:"Modbus Write Multiple Registers (FC16)"; flow:to_server,established; content:"|10|"; offset:7; depth:1; sid:100202; rev:2;)
+
+# Nmap SYN Scan Detection
+alert tcp any any -> any 502 (msg:"Nmap SYN scan detected"; flow:to_server; flags:S; sid:1000001; rev:2;)
